@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="workbench-csrf" content="__WORKBENCH_CSRF__">
+  <title>Evaluation Workbench</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E">
+  <link rel="stylesheet" href="/assets/workbench.css">
+</head>
+<body>
+  <a class="skip-link" href="#case-detail">К проверке кейса</a>
+  <header class="masthead">
+    <div>
+      <p class="eyebrow">Stock Configurator · локальный контур</p>
+      <h1>Evaluation Workbench</h1>
+    </div>
+    <div class="privacy-mark" aria-label="Режим конфиденциальности">
+      <span class="privacy-dot" aria-hidden="true"></span>
+      Sensitive local only
+    </div>
+  </header>
+
+  <main>
+    <section class="summary-shell" aria-labelledby="summary-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Состояние выборки</p>
+          <h2 id="summary-title">Качество подтверждает человек</h2>
+        </div>
+        <p class="summary-note">Pending-кейсы не считаются доказательством качества.</p>
+      </div>
+      <dl class="summary-grid" id="summary-grid" aria-live="polite"></dl>
+    </section>
+
+    <section class="workbench" aria-label="Рабочая область проверки">
+      <aside class="case-index" aria-labelledby="case-index-title">
+        <div class="index-head">
+          <div>
+            <p class="eyebrow">Очередь</p>
+            <h2 id="case-index-title">Кейсы</h2>
+          </div>
+          <button class="icon-button" id="refresh-button" type="button" aria-label="Обновить список">↻</button>
+        </div>
+        <div class="filters" role="group" aria-label="Фильтр кейсов">
+          <button class="filter is-active" type="button" data-filter="all" aria-pressed="true">Все</button>
+          <button class="filter" type="button" data-filter="pending" aria-pressed="false">На проверке</button>
+          <button class="filter" type="button" data-filter="blocked" aria-pressed="false">Проблемы</button>
+          <button class="filter" type="button" data-filter="finalized" aria-pressed="false">Завершены</button>
+        </div>
+        <div class="case-list" id="case-list" aria-live="polite"></div>
+      </aside>
+
+      <article class="case-detail" id="case-detail" tabindex="-1">
+        <div class="empty-state" id="empty-state">
+          <p class="empty-index">00</p>
+          <h2>Выберите кейс для проверки</h2>
+          <p>Сначала сверяется целостность evidence. Только после этого открывается форма решения.</p>
+        </div>
+        <div id="detail-content" hidden></div>
+      </article>
+    </section>
+  </main>
+
+  <dialog id="finalize-dialog" aria-labelledby="finalize-title">
+    <form method="dialog" class="dialog-card">
+      <p class="eyebrow">Неизменяемое действие</p>
+      <h2 id="finalize-title">Финализировать решение?</h2>
+      <p id="finalize-copy">После финализации создаются annotation, golden-case и receipt. Повторное редактирование через интерфейс будет закрыто.</p>
+      <div class="dialog-actions">
+        <button class="button button-quiet" value="cancel">Отмена</button>
+        <button class="button button-danger" id="confirm-finalize" value="confirm">Финализировать</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+  <script src="/assets/workbench.js" defer></script>
+</body>
+</html>

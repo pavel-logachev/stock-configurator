@@ -1,0 +1,107 @@
+services:
+  stock-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      SERVICE_NAME: ${SERVICE_NAME:-stock-configurator}
+      ENVIRONMENT: ${ENVIRONMENT:-dev}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      DATABASE_URL: ${DATABASE_URL:-postgresql+asyncpg://stock_app:local-development-only@stock-postgres:5432/stock_configurator}
+      OCS_BASE_URL: ${OCS_BASE_URL:-https://testconnector.b2b.ocs.ru}
+      OCS_API_KEY: ${OCS_API_KEY:-}
+      OCS_SHIPMENT_CITY: ${OCS_SHIPMENT_CITY:-Москва}
+      TREOLAN_BASE_URL: ${TREOLAN_BASE_URL:-${TREOLAN_API_BASE_URL:-https://demo-api.treolan.ru}}
+      TREOLAN_API_BASE_URL: ${TREOLAN_API_BASE_URL:-${TREOLAN_BASE_URL:-https://demo-api.treolan.ru}}
+      TREOLAN_LOGIN: ${TREOLAN_LOGIN:-}
+      TREOLAN_PASSWORD: ${TREOLAN_PASSWORD:-}
+      TREOLAN_REQUESTS_PER_MINUTE_LIMIT: ${TREOLAN_REQUESTS_PER_MINUTE_LIMIT:-30}
+      LLM_PROVIDER: ${LLM_PROVIDER:-disabled}
+      LLM_BASE_URL: ${LLM_BASE_URL:-}
+      LLM_API_KEY: ${LLM_API_KEY:-}
+      LLM_MODEL: ${LLM_MODEL:-qwen/qwen3.7-plus}
+      LLM_CONFIGURATOR_ENABLED: ${LLM_CONFIGURATOR_ENABLED:-false}
+      LLM_CONFIGURATOR_MODE: ${LLM_CONFIGURATOR_MODE:-disabled}
+      LLM_CONFIGURATOR_MAX_PACKAGE_CHARS: ${LLM_CONFIGURATOR_MAX_PACKAGE_CHARS:-1500000}
+      LLM_CONFIGURATOR_READ_TIMEOUT_SECONDS: ${LLM_CONFIGURATOR_READ_TIMEOUT_SECONDS:-1800}
+      LLM_CONFIGURATOR_MAX_OUTPUT_TOKENS: ${LLM_CONFIGURATOR_MAX_OUTPUT_TOKENS:-65536}
+      HIGH_QUALITY_FULL_MATRIX_BY_DEFAULT: ${HIGH_QUALITY_FULL_MATRIX_BY_DEFAULT:-true}
+      STOCK_MATCH_PIPELINE_V2: ${STOCK_MATCH_PIPELINE_V2:-true}
+      LLM_COMPOSER_FIRST_PIPELINE: ${LLM_COMPOSER_FIRST_PIPELINE:-true}
+      STOCK_MATCH_PIPELINE_V2_MODE: ${STOCK_MATCH_PIPELINE_V2_MODE:-composer_cascade}
+      LLM_ROLE_EVALUATION_ENABLED: ${LLM_ROLE_EVALUATION_ENABLED:-false}
+      LLM_COMPOSER_CRITIC_ENABLED: ${LLM_COMPOSER_CRITIC_ENABLED:-true}
+      LLM_COMPOSER_REPAIR_MAX_ATTEMPTS: ${LLM_COMPOSER_REPAIR_MAX_ATTEMPTS:-1}
+      LLM_MAX_CALLS_PER_MATCH: ${LLM_MAX_CALLS_PER_MATCH:-6}
+      LLM_COMPOSER_MULTI_PASS: ${LLM_COMPOSER_MULTI_PASS:-false}
+      V3_REFRESH_CATEGORIES_BEFORE_LLM: ${V3_REFRESH_CATEGORIES_BEFORE_LLM:-true}
+      LLM_FULL_MATRIX_MAX_SECONDS: ${LLM_FULL_MATRIX_MAX_SECONDS:-900}
+      LLM_FULL_MATRIX_CHUNK_TIMEOUT_SECONDS: ${LLM_FULL_MATRIX_CHUNK_TIMEOUT_SECONDS:-300}
+      LLM_SEMANTIC_PLANNER_MAX_SECONDS: ${LLM_SEMANTIC_PLANNER_MAX_SECONDS:-300}
+      LLM_SEMANTIC_PLANNER_STAGE_TIMEOUT_SECONDS: ${LLM_SEMANTIC_PLANNER_STAGE_TIMEOUT_SECONDS:-120}
+      LLM_FULL_MATRIX_FORCE: ${LLM_FULL_MATRIX_FORCE:-false}
+      LLM_CONFIGURATOR_NO_RECOMMENDATION_MIN_LARGE_ROLE_CANDIDATES: ${LLM_CONFIGURATOR_NO_RECOMMENDATION_MIN_LARGE_ROLE_CANDIDATES:-12}
+      WEB_EVIDENCE_ENABLED: ${WEB_EVIDENCE_ENABLED:-false}
+      WEB_EVIDENCE_PROVIDER: ${WEB_EVIDENCE_PROVIDER:-disabled}
+      WEB_EVIDENCE_BASE_URL: ${WEB_EVIDENCE_BASE_URL:-}
+      WEB_EVIDENCE_API_KEY: ${WEB_EVIDENCE_API_KEY:-}
+      TAVILY_API_KEY: ${TAVILY_API_KEY:-}
+    ports:
+      - "127.0.0.1:8010:8000"
+    depends_on:
+      stock-postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  stock-bot:
+    profiles: ["telegram"]
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python -m app.telegram_bot.main
+    restart: unless-stopped
+    environment:
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-}
+      TELEGRAM_ALLOWED_USER_IDS: ${TELEGRAM_ALLOWED_USER_IDS:-}
+      TELEGRAM_PROXY_URL: ${TELEGRAM_PROXY_URL:-}
+      STOCK_API_BASE_URL: http://stock-api:8000
+      TELEGRAM_V3_REQUEST_TIMEOUT_SECONDS: ${TELEGRAM_V3_REQUEST_TIMEOUT_SECONDS:-1800}
+      LLM_MODEL: ${LLM_MODEL:-qwen/qwen3.7-plus}
+      LLM_CONFIGURATOR_MAX_PACKAGE_CHARS: ${LLM_CONFIGURATOR_MAX_PACKAGE_CHARS:-1500000}
+      HIGH_QUALITY_FULL_MATRIX_BY_DEFAULT: ${HIGH_QUALITY_FULL_MATRIX_BY_DEFAULT:-true}
+      STOCK_MATCH_PIPELINE_V2: ${STOCK_MATCH_PIPELINE_V2:-true}
+      LLM_COMPOSER_FIRST_PIPELINE: ${LLM_COMPOSER_FIRST_PIPELINE:-true}
+      STOCK_MATCH_PIPELINE_V2_MODE: ${STOCK_MATCH_PIPELINE_V2_MODE:-composer_cascade}
+      LLM_ROLE_EVALUATION_ENABLED: ${LLM_ROLE_EVALUATION_ENABLED:-false}
+      LLM_COMPOSER_CRITIC_ENABLED: ${LLM_COMPOSER_CRITIC_ENABLED:-true}
+      LLM_COMPOSER_REPAIR_MAX_ATTEMPTS: ${LLM_COMPOSER_REPAIR_MAX_ATTEMPTS:-1}
+      LLM_MAX_CALLS_PER_MATCH: ${LLM_MAX_CALLS_PER_MATCH:-6}
+      LLM_COMPOSER_MULTI_PASS: ${LLM_COMPOSER_MULTI_PASS:-false}
+      V3_REFRESH_CATEGORIES_BEFORE_LLM: ${V3_REFRESH_CATEGORIES_BEFORE_LLM:-true}
+    depends_on:
+      stock-api:
+        condition: service_healthy
+
+  stock-postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-stock_configurator}
+      POSTGRES_USER: ${POSTGRES_USER:-stock_app}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-local-development-only}
+    volumes:
+      - stock-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  stock-postgres-data:

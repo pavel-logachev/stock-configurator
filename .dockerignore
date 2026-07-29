@@ -1,0 +1,16 @@
+.git
+.github
+.venv
+.pytest_cache
+.ruff_cache
+.tmp_pytest
+__pycache__
+*.py[cod]
+.env
+.env.*
+!.env.example
+data/*
+!data/examples/
+!data/examples/**
+evaluation/simple_stock/local
+evaluation/simple_stock/reports

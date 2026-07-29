@@ -1,0 +1,66 @@
+from __future__ import annotations
+
+import argparse
+import asyncio
+from collections.abc import Sequence
+
+from app.catalog.category_repository import CategoryRepository
+from app.cli.ocs_category_format import format_path
+from app.core.database import get_session_factory
+
+DISTRIBUTOR_CODE = "treolan"
+
+
+def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="List saved Treolan categories.")
+    parser.add_argument("--search", help="Search in category id, name, and saved path.")
+    parser.add_argument("--limit", type=int, default=50, help="Maximum rows to print.")
+    return parser.parse_args(argv)
+
+
+async def run(argv: Sequence[str] | None = None) -> int:
+    args = parse_args(argv)
+    limit = max(args.limit, 1)
+    session_factory = get_session_factory()
+
+    async with session_factory() as session:
+        repository = CategoryRepository(session)
+        categories = await repository.list_categories(
+            distributor_code=DISTRIBUTOR_CODE,
+            search=args.search,
+            root_only=not bool(args.search),
+            limit=limit,
+        )
+
+    if args.search:
+        print(f'Treolan categories matching "{args.search}"')
+    else:
+        print('Root Treolan categories. Use --search "server" to search the full tree.')
+
+    if not categories:
+        print("No categories found.")
+        return 0
+
+    print("category_id\tlevel\tname\tpath\tenabled_for_sync")
+    for category in categories:
+        print(
+            "\t".join(
+                [
+                    category.category_id,
+                    str(category.level),
+                    category.name,
+                    format_path(category.path_json),
+                    str(category.enabled_for_sync).lower(),
+                ]
+            )
+        )
+
+    return 0
+
+
+def main() -> None:
+    raise SystemExit(asyncio.run(run()))
+
+
+if __name__ == "__main__":
+    main()

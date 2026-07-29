@@ -1,0 +1,53 @@
+{
+  "schema_version": "simple-stock-golden-dataset.v1",
+  "dataset_id": "public-synthetic-bootstrap-v1",
+  "status": "bootstrap",
+  "privacy_class": "internal",
+  "production_baseline_ref": "config/production_pipeline_baseline.json",
+  "minimum_accepted_cases": 20,
+  "thresholds": {
+    "minimum_semantic_score": 0.8,
+    "structured_valid_rate": 1.0,
+    "grounded_product_id_rate": 1.0,
+    "critical_error_count": 0,
+    "unsupported_material_claim_count": 0,
+    "maximum_business_weighted_loss": 0.2,
+    "maximum_latency_regression_ratio": 1.25,
+    "maximum_cost_regression_ratio": 1.25
+  },
+  "cases": [
+    {
+      "case_id": "synthetic-server-basic",
+      "status": "pending_review",
+      "tags": ["synthetic", "server", "bootstrap"],
+      "business_weight": 1,
+      "source": {
+        "ref": "synthetic://requests/server-basic",
+        "sha256": "da457a9f0290a3b6c56f66092e14ed275d5857aff6ec2e8679220a506910b83d",
+        "privacy_class": "internal"
+      },
+      "matrix_source": {
+        "ref": "synthetic://matrices/server-basic",
+        "sha256": "0d0d1106b30986f47d484bdb9e1caa11d0abf18756f191460ed3c4faf5ab8bde",
+        "privacy_class": "internal"
+      },
+      "expectations": {
+        "allowed_result_states": ["quote_draft_review_required", "no_recommendation"],
+        "required_pipeline_version": "simple_stock_quote",
+        "allowed_final_status_sources": ["simple_stock_quote_llm_accepted"],
+        "minimum_quote_lines": 0,
+        "maximum_validation_errors": 0,
+        "maximum_validation_warnings": 0,
+        "require_engineering_review": true,
+        "required_atomic_criteria": [
+          "request-role-coverage",
+          "compatibility-and-enablement",
+          "commercial-price-choice",
+          "no-unsupported-claims"
+        ]
+      },
+      "reviewed_by_role": null,
+      "reviewed_at": null
+    }
+  ]
+}

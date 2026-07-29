@@ -1,0 +1,41 @@
+categories:
+  - category_id: V1100
+    name_ru: Серверы в сборе
+    role: ready_server
+    enabled_by_default: true
+  - category_id: V110100
+    name_ru: Серверные платформы
+    role: server_platform
+    enabled_by_default: true
+  - category_id: V110103
+    name_ru: Серверные процессоры
+    role: cpu
+    enabled_by_default: true
+  - category_id: V110104
+    name_ru: Серверная оперативная память
+    role: ram
+    enabled_by_default: true
+  - category_id: V110106
+    name_ru: Серверные SSD
+    role: ssd
+    enabled_by_default: true
+  - category_id: V110112
+    name_ru: Серверные HDD
+    role: hdd
+    enabled_by_default: true
+  - category_id: V110107
+    name_ru: Серверные контроллеры
+    role: storage_controller
+    enabled_by_default: true
+  - category_id: V110108
+    name_ru: Серверные блоки питания
+    role: power_supply
+    enabled_by_default: true
+  - category_id: V110109
+    name_ru: Серверные кабели питания и аксессуары
+    role: cable
+    enabled_by_default: true
+  - category_id: V120116
+    name_ru: Серверные сетевые адаптеры
+    role: network_adapter
+    enabled_by_default: true

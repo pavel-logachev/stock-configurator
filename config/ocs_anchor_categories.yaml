@@ -1,0 +1,264 @@
+# OCS anchor categories are sync-helper facts, not business policy.
+# Workflow: sync local categories, run discovery, review candidates, mark anchors approved,
+# then enable anchors and sync products. Do not add unreviewed category IDs here.
+anchors:
+  - group: server
+    role: ready_server
+    category_id: V1100
+    category_path: "Servers / Ready servers"
+    allowed_roles: [ready_server]
+    category_kind: base_device
+    base_device_allowed: true
+    comment: Server baseline anchor copied from config/ocs_server_categories.yaml.
+    enabled_default: true
+    review_status: approved
+  - group: server
+    role: server_platform
+    category_id: V110100
+    category_path: "Servers / Platforms"
+    allowed_roles: [server_platform]
+    category_kind: base_device
+    base_device_allowed: true
+    comment: Server baseline anchor copied from config/ocs_server_categories.yaml.
+    enabled_default: true
+    review_status: approved
+  - group: server
+    role: cpu
+    category_id: V110103
+    category_path: "Servers / CPUs"
+    allowed_roles: [cpu]
+    category_kind: component
+    base_device_allowed: false
+    comment: Server baseline anchor copied from config/ocs_server_categories.yaml.
+    enabled_default: true
+    review_status: approved
+  - group: server
+    role: ram
+    category_id: V110104
+    category_path: "Servers / RAM"
+    allowed_roles: [ram]
+    category_kind: component
+    base_device_allowed: false
+    comment: Server baseline anchor copied from config/ocs_server_categories.yaml.
+    enabled_default: true
+    review_status: approved
+  - group: server
+    role: ssd
+    category_id: V110106
+    category_path: "Servers / SSD"
+    allowed_roles: [ssd, storage, drive]
+    category_kind: drive
+    base_device_allowed: false
+    comment: Server baseline anchor copied from config/ocs_server_categories.yaml.
+    enabled_default: true
+    review_status: approved
+  - group: server
+    role: hdd
+    category_id: V110112
+    category_path: "Servers / HDD"
+    allowed_roles: [hdd, storage, drive]
+    category_kind: drive
+    base_device_allowed: false
+    comment: Server baseline anchor copied from config/ocs_server_categories.yaml.
+    enabled_default: true
+    review_status: approved
+  - group: server
+    role: storage_controller
+    category_id: V110107
+    category_path: "Servers / Storage controllers"
+    allowed_roles: [storage_controller]
+    category_kind: component
+    base_device_allowed: false
+    comment: Server baseline anchor copied from config/ocs_server_categories.yaml.
+    enabled_default: true
+    review_status: approved
+  - group: server
+    role: network_adapter
+    category_id: V120116
+    category_path: "Servers / Network adapters"
+    allowed_roles: [network_adapter]
+    category_kind: component
+    base_device_allowed: false
+    comment: Server baseline anchor copied from config/ocs_server_categories.yaml.
+    enabled_default: true
+    review_status: approved
+  - group: network
+    role: switch
+    category_id: V120100
+    category_path: "Network / Switches"
+    allowed_roles: [switch]
+    category_kind: base_device
+    base_device_allowed: true
+    comment: OCS network base switch category.
+    enabled_default: true
+    review_status: approved
+  - group: network
+    role: stacking_module
+    category_id: V120101
+    category_path: "Network / Switch modules"
+    allowed_roles: [stacking_module, dac_cable, cable, other_accessory]
+    category_kind: module
+    base_device_allowed: false
+    comment: OCS switch modules/options, not a base switch category by default.
+    enabled_default: true
+    review_status: approved
+  - group: network
+    role: router
+    category_id: V120102
+    category_path: "Network / Routers"
+    allowed_roles: [router]
+    category_kind: base_device
+    base_device_allowed: true
+    comment: OCS router category.
+    enabled_default: true
+    review_status: approved
+  - group: network
+    role: other_accessory
+    category_id: V120103
+    category_path: "Network / Router options"
+    allowed_roles: [other_accessory, module]
+    category_kind: module
+    base_device_allowed: false
+    comment: Router accessories/options, not a base router category by default.
+    enabled_default: true
+    review_status: approved
+  - group: network
+    role: transceiver
+    category_id: V120107
+    category_path: "Network / Transceivers"
+    allowed_roles: [transceiver]
+    category_kind: transceiver
+    base_device_allowed: false
+    comment: OCS optics/transceiver category.
+    enabled_default: true
+    review_status: approved
+  - group: network
+    role: access_point
+    category_id: V120108
+    category_path: "Network / Access points"
+    allowed_roles: [access_point]
+    category_kind: base_device
+    base_device_allowed: true
+    comment: OCS Wi-Fi access point category.
+    enabled_default: true
+    review_status: approved
+  - group: network
+    role: network_controller
+    category_id: V120109
+    category_path: "Network / Wireless controllers"
+    allowed_roles: [network_controller, access_point_controller, other_accessory]
+    category_kind: mixed
+    base_device_allowed: false
+    comment: Wireless/AP controllers; not storage host ports.
+    enabled_default: true
+    review_status: approved
+  - group: network
+    role: cable
+    category_id: V120150
+    category_path: "Network / Cables and accessories"
+    allowed_roles: [dac_cable, cable, other_accessory]
+    category_kind: accessory
+    base_device_allowed: false
+    comment: Network cables/accessories, not a base switch category.
+    enabled_default: true
+    review_status: approved
+  - group: storage
+    role: storage_system
+    category_id: V2101
+    category_path: "Storage / Storage systems"
+    allowed_roles: [storage_system]
+    category_kind: base_device
+    base_device_allowed: true
+    comment: OCS storage systems category.
+    enabled_default: true
+    review_status: approved
+  - group: storage
+    role: storage_system
+    category_id: V2103
+    category_path: "Storage / NAS"
+    allowed_roles: [storage_system]
+    category_kind: base_device
+    base_device_allowed: true
+    comment: OCS NAS/storage system category.
+    enabled_default: true
+    review_status: approved
+  - group: storage
+    role: disk_shelf
+    category_id: V2105
+    category_path: "Storage / Shelves and enclosures"
+    allowed_roles: [disk_shelf, cable, other_accessory]
+    category_kind: mixed
+    base_device_allowed: false
+    comment: Storage shelves/options; not controller by default.
+    enabled_default: true
+    review_status: approved
+  - group: storage
+    role: host_port
+    category_id: V2104
+    category_path: "Storage / Options and modules"
+    allowed_roles: [host_port, protocol_module, transceiver, cable, drive, ssd, hdd, license, other_accessory]
+    category_kind: mixed
+    base_device_allowed: false
+    comment: Storage options/modules; not a storage system by default.
+    enabled_default: true
+    review_status: approved
+  - group: storage
+    role: support
+    category_id: V3100
+    category_path: "Services / Support"
+    allowed_roles: [support]
+    category_kind: support
+    base_device_allowed: false
+    comment: Support/services category; may currently have zero products.
+    enabled_default: true
+    review_status: approved
+  - group: storage
+    role: support
+    category_id: V3104
+    category_path: "Services / Warranty"
+    allowed_roles: [support]
+    category_kind: support
+    base_device_allowed: false
+    comment: Warranty/support category; may currently have zero products.
+    enabled_default: true
+    review_status: approved
+  - group: storage
+    role: ssd
+    category_id: V110106
+    category_path: "Servers / SSD"
+    allowed_roles: [drive, ssd]
+    category_kind: drive
+    base_device_allowed: false
+    comment: OCS SSD category can be a storage drive pool when separate drives are planned.
+    enabled_default: true
+    review_status: approved
+  - group: storage
+    role: hdd
+    category_id: V110112
+    category_path: "Servers / HDD"
+    allowed_roles: [drive, hdd]
+    category_kind: drive
+    base_device_allowed: false
+    comment: OCS HDD category can be a storage drive pool when separate drives are planned.
+    enabled_default: true
+    review_status: approved
+  - group: server
+    role: power_supply
+    category_id: V110108
+    category_path: "Servers / Power supplies"
+    allowed_roles: [power_supply]
+    category_kind: component
+    base_device_allowed: false
+    comment: Server PSU category; valid only when the planner selects a server power_supply role.
+    enabled_default: true
+    review_status: approved
+  - group: server
+    role: cable
+    category_id: V110109
+    category_path: "Servers / Power cables and accessories"
+    allowed_roles: [cable, other_accessory]
+    category_kind: cable
+    base_device_allowed: false
+    comment: Server power cable/accessory category; network DAC categories remain network scoped.
+    enabled_default: true
+    review_status: approved

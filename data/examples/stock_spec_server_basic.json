@@ -1,0 +1,27 @@
+{
+  "items": [
+    {
+      "item_type": "server",
+      "quantity": 2,
+      "name": "server",
+      "requirements": {
+        "form_factor": "2U",
+        "cpu": {
+          "sockets": 2
+        },
+        "ram": {
+          "min_gb": 512
+        },
+        "storage": {
+          "type": "SSD"
+        },
+        "power": {
+          "psu_count": 2,
+          "redundant_psu": true
+        }
+      }
+    }
+  ],
+  "shipment_city": "Москва",
+  "source_text": "Нужно 2 сервера 2U, 2 процессора, 512 ГБ RAM, SSD, 2 БП, склад Москва"
+}

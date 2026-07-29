@@ -1,0 +1,40 @@
+{
+  "schema_version": "stock-configurator-production-pipeline-baseline-v1",
+  "captured_at": null,
+  "environment": "public-synthetic",
+  "production_commit": "public-clean-room-snapshot",
+  "entrypoint": "/api/v1/match/v3/simple-stock-quote",
+  "pipeline_version": "simple_stock_quote",
+  "result_state": "quote_draft_review_required",
+  "stages": {
+    "route_prompt_version": "simple_stock_route_v19",
+    "matrix_schema_version": "simple_stock_matrix.v8",
+    "composer_prompt_version": "simple_stock_composer_v70",
+    "reconciler_version": "quote_integrity_reconciler_v9"
+  },
+  "llm": {
+    "provider": "openai-compatible",
+    "model": "example/model",
+    "timeout_seconds": 900,
+    "read_timeout_seconds": 1800,
+    "max_package_chars": 5000000,
+    "max_output_tokens": 65536,
+    "thinking_enabled": false
+  },
+  "runtime_flags": {
+    "high_quality_full_matrix_by_default": true,
+    "refresh_categories_before_llm": true
+  },
+  "production_evidence": {
+    "source": "synthetic",
+    "match_run_id": null,
+    "stock_row_count": null,
+    "validation_error_count": null
+  },
+  "change_policy": {
+    "preserve_default_behavior": true,
+    "require_shadow_evaluation_for_semantic_changes": true,
+    "require_single_change_axis_per_release": true,
+    "require_rollback_plan": true
+  }
+}

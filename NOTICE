@@ -1,0 +1,8 @@
+Stock Configurator
+Copyright (c) 2026 Pavel Logachev
+
+This repository is a clean-room public edition assembled from a reviewed private source snapshot. Private Git history, credentials, deployment state, customer materials, distributor payloads, prices, production outputs, and agent memory are not part of this release.
+
+The source code is licensed under AGPL-3.0-only. Runtime dependencies are not vendored and remain subject to their respective licenses.
+
+OCS, Treolan, Telegram, and all product or vendor names are trademarks or trade names of their respective owners. This project is independent and is not endorsed by them.
