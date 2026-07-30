@@ -10,7 +10,7 @@
 
 ## At a glance
 
-| | |
+| Aspect | Detail |
 | --- | --- |
 | **For** | Infrastructure sales and presales teams, with final review by an engineer |
 | **Input** | A free-form server, storage, or networking request plus authorized distributor inventory |
