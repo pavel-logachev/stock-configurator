@@ -1,14 +1,23 @@
 # Stock Configurator
 
-[![CI](https://github.com/pavel-logachev/stock-configurator/actions/workflows/ci.yml/badge.svg)](https://github.com/pavel-logachev/stock-configurator/actions/workflows/ci.yml)
-[![License: AGPL-3.0](https://img.shields.io/badge/license-AGPL--3.0-5b5bd6)](LICENSE)
-[![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-3776ab)](pyproject.toml)
+**A working infrastructure-presales MVP that turns a manager's free-form request and distributor stock into a reviewable draft specification with explicit assumptions.**
 
-**A request-to-draft pipeline for infrastructure presales: parse a free-form request, ground it in available stock, compose a configuration, validate every material claim, and leave the final decision to an engineer.**
+[Product case](https://logachev.net/portfolio/stock-configurator/) · [CI](https://github.com/pavel-logachev/stock-configurator/actions/workflows/ci.yml) · [Architecture](docs/ARCHITECTURE.md) · [Run locally](docs/LOCAL_DEVELOPMENT.md) · [AGPL-3.0](LICENSE)
 
 ![Stock Configurator product flow](docs/assets/social-preview.png)
 
-> This image is a product-flow diagram, not a UI screenshot.
+> Product-flow diagram based on synthetic data. It is not a UI screenshot or a customer artifact.
+
+## At a glance
+
+| | |
+| --- | --- |
+| **For** | Infrastructure sales and presales teams, with final review by an engineer |
+| **Input** | A free-form server, storage, or networking request plus authorized distributor inventory |
+| **Output** | A draft BOM, concise summary, and Excel report with assumptions and open questions |
+| **Interfaces** | Telegram, FastAPI, and downloadable Markdown or Excel reports |
+| **Decision boundary** | Code validates identifiers, quantities, prices, evidence, and result state; an engineer confirms compatibility and commercial readiness |
+| **Status** | Working private MVP; this repository is the sanitized clean-room public edition |
 
 ## Why this exists
 
@@ -26,6 +35,12 @@ Turning that sentence into a commercial draft requires several different kinds o
 - producing an artifact an engineer can review and hand off.
 
 Stock Configurator separates those responsibilities. Language models handle semantic extraction and composition. Deterministic code owns integrations, persistence, validation, evidence, report generation, and release gates.
+
+## Pavel Logachev's role
+
+I designed and built Stock Configurator as an independent product around a workflow I know from B2B IT and systems integration. My work covers the product logic, Telegram operator flow, FastAPI service, distributor-data boundary, evidence and reconciliation layer, Excel output, evaluation contracts, and public-release engineering.
+
+The [portfolio case](https://logachev.net/portfolio/stock-configurator/) explains the user workflow and result. This repository provides the inspectable implementation, tests, architecture, and explicit publication boundary.
 
 ## Public edition status
 
@@ -178,6 +193,10 @@ The committed dataset is deliberately a one-case synthetic bootstrap and remains
 - Generated drafts retain an explicit engineering-review state.
 
 Please report vulnerabilities through GitHub private vulnerability reporting. See [SECURITY.md](SECURITY.md).
+
+## Similar work
+
+I build practical internal tools that connect business workflows, operational data, AI-assisted semantic work, deterministic validation, and human decisions. [Read the Stock Configurator case](https://logachev.net/portfolio/stock-configurator/) or [describe a similar task](mailto:ai@logachev.net?subject=Infrastructure%20workflow).
 
 ## Trade names
 

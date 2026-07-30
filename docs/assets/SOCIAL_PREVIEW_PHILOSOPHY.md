@@ -1,9 +1,11 @@
 # Evidence Grid
 
-Evidence Grid treats technical work as a sequence that can be inspected rather than a promise that must be believed. A quiet dark field provides distance; a measured grid turns that field into a working surface. The composition should feel built, checked, and refined, with every edge aligned deliberately.
+Evidence Grid treats technical work as a sequence that can be inspected rather than a promise that must be believed. A quiet dark field creates distance; a measured grid turns that field into a working surface. The composition should feel built, checked, and refined, with every edge aligned through painstaking attention.
 
-Information lives in spatial relationships. A small number of large blocks carries the product flow, while one saturated blue state marks the point where raw inventory becomes an actionable draft. Typography stays sparse and editorial. It names the system without competing with it.
+Information lives in spatial relationships. A small number of large modules carries the sequence, and generous negative space lets the eye understand each transition before reading a label. Scale is disciplined rather than dramatic: one editorial title establishes identity, while the system itself remains the primary visual subject.
 
-The red review boundary is not decoration: it is the visual expression of accountable human judgment. It must remain distinct from the automated path, precise in scale, and impossible to misread as a failure state. Restrained color makes this single operational constraint legible.
+Color acts as an operational language. Deep navy holds the evidence field, a single saturated blue marks the usable draft, and a restrained coral boundary identifies accountable human judgment. These states must remain distinct at thumbnail size, calibrated with the care of a master information designer.
 
-The finished image should feel meticulously crafted rather than generated: disciplined spacing, exact cropping, clean type, no invented interface chrome, and no claim that the diagram is a screenshot. It is a product-flow artifact derived from the existing Logachev portfolio system and prepared specifically for repository presentation.
+Typography is sparse and integrated into the architecture. A serif title brings an authored, editorial character; compact sans-serif labels provide technical precision. Words anchor what form and color already communicate. Nothing imitates an application interface, and no decorative element is allowed to compete with the workflow.
+
+The finished artifact should look meticulously crafted over countless refinements: exact spacing, crisp geometry, controlled contrast, and deliberate attribution. It must work both as a full-width repository hero and as a small social card while remaining honest about its nature as a conceptual product-flow diagram, not a screenshot or customer artifact.
