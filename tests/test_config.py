@@ -1,6 +1,27 @@
+import re
 from pathlib import Path
 
-from app.core.config import LlmSettings, TreolanSettings
+from app.core.config import (
+    LlmSettings,
+    OcsSettings,
+    Settings,
+    TelegramSettings,
+    TreolanSettings,
+    WebEvidenceSettings,
+)
+
+
+def _service_section(compose: str, service: str, next_service: str | None) -> str:
+    section = compose.split(f"  {service}:", maxsplit=1)[1]
+    if next_service:
+        section = section.split(f"  {next_service}:", maxsplit=1)[0]
+    return section
+
+
+def _environment_keys(service_section: str) -> set[str]:
+    environment = service_section.split("    environment:", maxsplit=1)[1]
+    environment = environment.split("    depends_on:", maxsplit=1)[0]
+    return set(re.findall(r"^      ([A-Z][A-Z0-9_]+):", environment, flags=re.MULTILINE))
 
 
 def test_llm_configurator_max_package_chars_reads_env(monkeypatch) -> None:
@@ -66,91 +87,42 @@ def test_llm_semantic_planner_timeouts_read_env(monkeypatch) -> None:
     assert settings.llm_semantic_planner_stage_timeout_seconds == 90
 
 
-def test_docker_compose_passes_llm_package_limit_to_runtime() -> None:
+def test_docker_compose_passes_all_api_settings_to_runtime() -> None:
     compose = Path("docker-compose.yml").read_text(encoding="utf-8")
-    stock_api_section = compose.split("  stock-api:", maxsplit=1)[1].split(
-        "  stock-bot:",
-        maxsplit=1,
-    )[0]
-    stock_bot_section = compose.split("  stock-bot:", maxsplit=1)[1].split(
-        "  stock-postgres:",
-        maxsplit=1,
-    )[0]
+    api_keys = _environment_keys(_service_section(compose, "stock-api", "stock-bot"))
+    settings_classes = (OcsSettings, TreolanSettings, LlmSettings, WebEvidenceSettings)
+    expected_keys = {
+        field_name.upper()
+        for settings_class in settings_classes
+        for field_name in settings_class.model_fields
+    }
+    expected_keys.update({"SERVICE_NAME", "ENVIRONMENT", "LOG_LEVEL", "DATABASE_URL"})
 
-    expected = "LLM_CONFIGURATOR_MAX_PACKAGE_CHARS: ${LLM_CONFIGURATOR_MAX_PACKAGE_CHARS:-1500000}"
-    assert expected in stock_api_section
-    assert expected in stock_bot_section
-    assert "LLM_MODEL: ${LLM_MODEL:-qwen/qwen3.7-plus}" in stock_api_section
-    treolan_flags = [
-        "TREOLAN_BASE_URL: ${TREOLAN_BASE_URL:-${TREOLAN_API_BASE_URL:-https://demo-api.treolan.ru}}",
-        "TREOLAN_API_BASE_URL: ${TREOLAN_API_BASE_URL:-${TREOLAN_BASE_URL:-https://demo-api.treolan.ru}}",
-        "TREOLAN_LOGIN: ${TREOLAN_LOGIN:-}",
-        "TREOLAN_PASSWORD: ${TREOLAN_PASSWORD:-}",
-        "TREOLAN_REQUESTS_PER_MINUTE_LIMIT: ${TREOLAN_REQUESTS_PER_MINUTE_LIMIT:-30}",
-    ]
-    for treolan_flag in treolan_flags:
-        assert treolan_flag in stock_api_section
-    assert (
-        "LLM_CONFIGURATOR_READ_TIMEOUT_SECONDS: "
-        "${LLM_CONFIGURATOR_READ_TIMEOUT_SECONDS:-1800}"
-    ) in stock_api_section
-    assert (
-        "LLM_CONFIGURATOR_MAX_OUTPUT_TOKENS: "
-        "${LLM_CONFIGURATOR_MAX_OUTPUT_TOKENS:-65536}"
-    ) in stock_api_section
-    high_quality = (
-        "HIGH_QUALITY_FULL_MATRIX_BY_DEFAULT: "
-        "${HIGH_QUALITY_FULL_MATRIX_BY_DEFAULT:-true}"
-    )
-    assert high_quality in stock_api_section
-    assert high_quality in stock_bot_section
-    assert (
-        "TELEGRAM_V3_REQUEST_TIMEOUT_SECONDS: ${TELEGRAM_V3_REQUEST_TIMEOUT_SECONDS:-1800}"
-        in stock_bot_section
-    )
-    runtime_v2_flags = [
-        "STOCK_MATCH_PIPELINE_V2: ${STOCK_MATCH_PIPELINE_V2:-true}",
-        "LLM_COMPOSER_FIRST_PIPELINE: ${LLM_COMPOSER_FIRST_PIPELINE:-true}",
-        "STOCK_MATCH_PIPELINE_V2_MODE: ${STOCK_MATCH_PIPELINE_V2_MODE:-composer_cascade}",
-        "LLM_ROLE_EVALUATION_ENABLED: ${LLM_ROLE_EVALUATION_ENABLED:-false}",
-        "LLM_COMPOSER_CRITIC_ENABLED: ${LLM_COMPOSER_CRITIC_ENABLED:-true}",
-        "LLM_COMPOSER_REPAIR_MAX_ATTEMPTS: ${LLM_COMPOSER_REPAIR_MAX_ATTEMPTS:-1}",
-        "LLM_MAX_CALLS_PER_MATCH: ${LLM_MAX_CALLS_PER_MATCH:-6}",
-        "LLM_COMPOSER_MULTI_PASS: ${LLM_COMPOSER_MULTI_PASS:-false}",
-        "V3_REFRESH_CATEGORIES_BEFORE_LLM: ${V3_REFRESH_CATEGORIES_BEFORE_LLM:-true}",
-    ]
-    for runtime_flag in runtime_v2_flags:
-        assert runtime_flag in stock_api_section
-        assert runtime_flag in stock_bot_section
-    assert "LLM_FULL_MATRIX_MAX_SECONDS: ${LLM_FULL_MATRIX_MAX_SECONDS:-900}" in stock_api_section
-    assert (
-        "LLM_FULL_MATRIX_CHUNK_TIMEOUT_SECONDS: ${LLM_FULL_MATRIX_CHUNK_TIMEOUT_SECONDS:-300}"
-        in stock_api_section
-    )
-    assert (
-        "LLM_SEMANTIC_PLANNER_MAX_SECONDS: ${LLM_SEMANTIC_PLANNER_MAX_SECONDS:-300}"
-        in stock_api_section
-    )
-    assert (
-        "LLM_SEMANTIC_PLANNER_STAGE_TIMEOUT_SECONDS: "
-        "${LLM_SEMANTIC_PLANNER_STAGE_TIMEOUT_SECONDS:-120}"
-    ) in stock_api_section
-    assert "LLM_FULL_MATRIX_FORCE: ${LLM_FULL_MATRIX_FORCE:-false}" in stock_api_section
-    assert (
-        "LLM_CONFIGURATOR_NO_RECOMMENDATION_MIN_LARGE_ROLE_CANDIDATES: "
-        "${LLM_CONFIGURATOR_NO_RECOMMENDATION_MIN_LARGE_ROLE_CANDIDATES:-12}"
-    ) in stock_api_section
+    assert expected_keys <= api_keys
+    assert {
+        "OCS_API_BASE_URL",
+        "OCS_REQUEST_TIMEOUT_SECONDS",
+        "TREOLAN_API_BASE_URL",
+        "TREOLAN_REQUEST_TIMEOUT_SECONDS",
+        "LLM_COMPOSER_FIRST_PIPELINE",
+    } <= api_keys
+
+
+def test_docker_compose_passes_only_bot_settings_to_bot_runtime() -> None:
+    compose = Path("docker-compose.yml").read_text(encoding="utf-8")
+    bot_keys = _environment_keys(_service_section(compose, "stock-bot", "stock-postgres"))
+    expected_keys = {field_name.upper() for field_name in TelegramSettings.model_fields}
+
+    assert expected_keys <= bot_keys
+    assert "LLM_API_KEY" not in bot_keys
+    assert "OCS_API_KEY" not in bot_keys
 
 
 def test_docker_compose_services_survive_host_reboot() -> None:
     compose = Path("docker-compose.yml").read_text(encoding="utf-8")
     service_sections = {
-        "stock-api": compose.split("  stock-api:", maxsplit=1)[1].split(
-            "  stock-bot:", maxsplit=1
-        )[0],
-        "stock-bot": compose.split("  stock-bot:", maxsplit=1)[1].split(
-            "  stock-postgres:", maxsplit=1
-        )[0],
+        "stock-api": _service_section(compose, "stock-api", "stock-bot"),
+        "stock-bot": _service_section(compose, "stock-bot", "stock-postgres"),
         "stock-postgres": compose.split("  stock-postgres:", maxsplit=1)[1].split(
             "volumes:", maxsplit=1
         )[0],
@@ -160,23 +132,27 @@ def test_docker_compose_services_survive_host_reboot() -> None:
         assert "restart: unless-stopped" in section, service_name
 
 
-def test_env_example_lists_v2_runtime_flags() -> None:
+def test_env_example_lists_all_application_settings() -> None:
     env_example = Path(".env.example").read_text(encoding="utf-8")
+    env_keys = set(re.findall(r"^([A-Z][A-Z0-9_]*)=", env_example, flags=re.MULTILINE))
+    expected_keys = {field_name.upper() for field_name in Settings.model_fields}
 
-    assert "LLM_MODEL=qwen/qwen3.7-plus" in env_example
-    assert "TREOLAN_BASE_URL=https://demo-api.treolan.ru" in env_example
-    assert "TREOLAN_LOGIN=" in env_example
-    assert "TREOLAN_PASSWORD=" in env_example
-    assert "TREOLAN_REQUESTS_PER_MINUTE_LIMIT=30" in env_example
-    assert "LLM_CONFIGURATOR_READ_TIMEOUT_SECONDS=1800" in env_example
-    assert "LLM_CONFIGURATOR_MAX_OUTPUT_TOKENS=65536" in env_example
-    assert "STOCK_MATCH_PIPELINE_V2=true" in env_example
-    assert "LLM_COMPOSER_FIRST_PIPELINE=true" in env_example
-    assert "TELEGRAM_V3_REQUEST_TIMEOUT_SECONDS=1800" in env_example
-    assert "STOCK_MATCH_PIPELINE_V2_MODE=composer_cascade" in env_example
-    assert "LLM_ROLE_EVALUATION_ENABLED=false" in env_example
-    assert "LLM_COMPOSER_CRITIC_ENABLED=true" in env_example
-    assert "LLM_COMPOSER_REPAIR_MAX_ATTEMPTS=1" in env_example
-    assert "LLM_MAX_CALLS_PER_MATCH=6" in env_example
-    assert "LLM_COMPOSER_MULTI_PASS=false" in env_example
-    assert "V3_REFRESH_CATEGORIES_BEFORE_LLM=true" in env_example
+    assert expected_keys <= env_keys
+    assert {
+        "POSTGRES_DB",
+        "POSTGRES_USER",
+        "POSTGRES_PASSWORD",
+        "OCS_API_BASE_URL",
+        "OCS_REQUEST_TIMEOUT_SECONDS",
+        "TREOLAN_API_BASE_URL",
+        "TREOLAN_REQUEST_TIMEOUT_SECONDS",
+        "LLM_COMPOSER_FIRST_PIPELINE",
+    } <= env_keys
+
+
+def test_dockerfile_installs_the_frozen_runtime_lock() -> None:
+    dockerfile = Path("Dockerfile").read_text(encoding="utf-8")
+
+    assert "COPY pyproject.toml uv.lock" in dockerfile
+    assert "uv sync --frozen --no-dev --no-cache" in dockerfile
+    assert "pip install --no-cache-dir ." not in dockerfile

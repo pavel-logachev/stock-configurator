@@ -17,6 +17,22 @@ jobs:
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: stock_configurator_test
+          POSTGRES_USER: stock_test
+          POSTGRES_PASSWORD: stock_test_password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U stock_test -d stock_configurator_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgresql+asyncpg://stock_test:stock_test_password@127.0.0.1:5432/stock_configurator_test
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
@@ -32,6 +48,14 @@ jobs:
         run: uv run --frozen --extra dev ruff check .
       - name: Test
         run: uv run --frozen --extra dev pytest -q
+      - name: Validate Compose
+        run: docker compose config --quiet
+      - name: Apply and verify PostgreSQL migrations
+        run: |
+          uv run --frozen --extra dev alembic upgrade head
+          uv run --frozen --extra dev python -m app.cli.verify_postgres_schema
+      - name: Build locked runtime image
+        run: docker build --tag stock-configurator:ci .
 
   dependency-audit:
     runs-on: ubuntu-latest
