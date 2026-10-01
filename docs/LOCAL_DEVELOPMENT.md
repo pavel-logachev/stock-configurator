@@ -1,38 +1,38 @@
-# Local development
+# Локальная разработка
 
-## Requirements
+## Требования
 
-- Python 3.12 or newer;
-- Docker with Compose v2 for PostgreSQL and container acceptance;
+- Python 3.12 или новее;
+- Docker с Compose v2 для PostgreSQL и приёмки контейнеров;
 - Git.
 
-Distributor, Telegram, and LLM credentials are not required for tests.
+Для тестов не нужны учётные данные дистрибьюторов, Telegram и языковой модели.
 
-## Python environment
+## Окружение Python
 
 ```bash
 python -m venv .venv
-source .venv/Scripts/activate  # Git Bash on Windows
+source .venv/Scripts/activate  # Git Bash в Windows
 python -m pip install --upgrade pip
 python -m pip install -e ".[dev]"
 ```
 
-If your shell exports a global `PYTHONPATH`, unset it before running project commands. A global package path can bypass the virtual environment and load incompatible binary wheels.
+Если в вашей оболочке задан глобальный `PYTHONPATH`, снимите его перед запуском команд проекта. Глобальный путь к пакетам может обойти виртуальное окружение и загрузить несовместимые бинарные пакеты.
 
 ```bash
 unset PYTHONPATH
 ```
 
-## Tests and lint
+## Тесты и линтер
 
 ```bash
 ruff check .
 pytest -q
 ```
 
-Tests use synthetic fixtures and patched network clients. A change that needs a live account is not complete until the same behavior is also covered by a deterministic test.
+Тесты используют синтетические данные и подменённые сетевые клиенты. Изменение, которому нужна живая учётная запись, не считается законченным, пока то же поведение не покрыто детерминированным тестом.
 
-## Local containers
+## Локальные контейнеры
 
 ```bash
 cp .env.example .env
@@ -41,33 +41,33 @@ docker compose exec stock-api alembic upgrade head
 curl http://127.0.0.1:8010/health
 ```
 
-Stop the stack without deleting the database volume:
+Остановите набор контейнеров, не удаляя том базы данных:
 
 ```bash
 docker compose down
 ```
 
-Deleting the named volume is destructive and is not part of normal cleanup.
+Удаление именованного тома необратимо и не входит в обычную очистку.
 
-## Optional integrations
+## Необязательные интеграции
 
-Put credentials only in `.env`. Keep each integration disabled until its endpoint, account permissions, timeout, and rate limits have been reviewed.
+Храните учётные данные только в `.env`. Держите каждую интеграцию выключенной, пока не проверены её адрес, права учётной записи, тайм-аут и лимиты запросов.
 
-The Telegram service starts only with the `telegram` profile:
+Сервис Telegram запускается только с профилем `telegram`:
 
 ```bash
 docker compose --profile telegram up --build -d
 ```
 
-## Database migrations
+## Миграции базы данных
 
-Create and review migrations with Alembic. Never rely on application startup to mutate the schema implicitly.
+Создавайте и проверяйте миграции через Alembic. Никогда не полагайтесь на то, что схему неявно изменит запуск приложения.
 
 ```bash
 alembic upgrade head
 alembic current
 ```
 
-## Evaluation data
+## Данные оценки
 
-Keep real bundles under `evaluation/simple_stock/local/`. Keep generated reports under `evaluation/simple_stock/reports/`. Both paths are ignored. Do not use production requests, prices, or identifiers in tests or pull requests.
+Реальные наборы храните в `evaluation/simple_stock/local/`, сформированные отчёты — в `evaluation/simple_stock/reports/`. Оба пути не попадают в Git. Не используйте рабочие запросы, цены и идентификаторы в тестах и pull request.

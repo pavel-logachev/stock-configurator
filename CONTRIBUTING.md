@@ -1,8 +1,8 @@
-# Contributing
+# Как участвовать
 
-Contributions should make the system easier to inspect, reproduce, or operate safely.
+Изменения должны делать систему проще для изучения, воспроизведения или безопасной эксплуатации.
 
-## Before opening a pull request
+## Перед открытием pull request
 
 ```bash
 python -m pip install -e ".[dev]"
@@ -10,28 +10,28 @@ ruff check .
 pytest -q
 ```
 
-Use Python 3.12 or newer. Tests must pass without live distributor, Telegram, or LLM credentials.
+Используйте Python 3.12 или новее. Тесты должны проходить без действующих учётных данных дистрибьюторов, Telegram и языковой модели.
 
-## Change discipline
+## Дисциплина изменений
 
-- Keep one semantic change axis per pull request.
-- Add or update tests for changed behavior.
-- Preserve deterministic validation and the engineering-review boundary.
-- Prefer explicit `no_recommendation` over unsupported fallback output.
-- Do not add customer data, real prices, inventory snapshots, private prompts, or credentials.
-- Do not weaken path confinement or hash binding in evaluation tooling.
-- Document new environment variables in `.env.example` without real values.
+- Один pull request — одна смысловая ось изменений.
+- Добавляйте или обновляйте тесты для изменённого поведения.
+- Сохраняйте детерминированную проверку и границу проверки инженером.
+- Явный `no_recommendation` лучше неподтверждённого запасного результата.
+- Не добавляйте данные клиентов, реальные цены, снимки остатков, закрытые промпты и учётные данные.
+- Не ослабляйте ограничение путей и привязку по хешам в инструментах оценки.
+- Документируйте новые переменные окружения в `.env.example` без реальных значений.
 
-## Connector changes
+## Изменения коннекторов
 
-Use mocked responses in tests. Confirm rate limits, retry semantics, and error redaction. A live manual smoke check may supplement tests but cannot replace them.
+В тестах используйте имитированные ответы. Проверьте лимиты запросов, семантику повторных попыток и скрытие данных в ошибках. Ручная проверка на живом сервисе может дополнить тесты, но не заменит их.
 
-## AI behavior changes
+## Изменения поведения ИИ
 
-Record the changed prompt or model setting as a versioned stage. Compare a baseline and candidate with the offline evaluator. Do not claim quality improvement from a single anecdotal example.
+Записывайте изменённый промпт или настройку модели как версионированный этап. Сравнивайте базовый и новый запуски офлайн-оценщиком. Не заявляйте об улучшении качества по одному случайному примеру.
 
-## Documentation
+## Документация
 
-Separate facts established by code or tests from operational assumptions. Do not publish internal run IDs, private endpoints, vendor payloads, or performance numbers without reproducible public evidence.
+Отделяйте факты, подтверждённые кодом или тестами, от эксплуатационных допущений. Не публикуйте внутренние идентификаторы запусков, закрытые адреса, ответы поставщиков и показатели производительности без воспроизводимых публичных подтверждений.
 
-By submitting a contribution, you agree that it is licensed under AGPL-3.0-only and that you have the right to provide it under that license.
+Отправляя изменение, вы соглашаетесь, что оно распространяется по лицензии AGPL-3.0-only и что вы вправе передать его на этих условиях.

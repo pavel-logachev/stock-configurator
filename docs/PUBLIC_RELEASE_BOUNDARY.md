@@ -1,44 +1,44 @@
-# Public release boundary
+# Граница публичного релиза
 
-This repository is a clean-room public edition of Stock Configurator. It was assembled from a reviewed source snapshot rather than by publishing the private repository or rewriting its history.
+Этот репозиторий — публичная версия Stock Configurator «с чистого листа». Она собрана из проверенного снимка исходного кода, а не публикацией закрытого репозитория и не переписыванием его истории.
 
-## Included
+## Что включено
 
-- application source under `app/`;
-- database migrations;
-- automated tests except private agent-tooling checks;
-- public distributor connector implementations;
-- synthetic request and specification examples;
-- a synthetic pipeline contract and bootstrap evaluation dataset;
-- local Docker configuration;
-- public documentation and CI.
+- исходный код приложения в `app/`;
+- миграции базы данных;
+- автоматические тесты, кроме проверок закрытых инструментов агента;
+- публичные реализации коннекторов дистрибьюторов;
+- синтетические примеры запросов и спецификаций;
+- синтетический контракт конвейера и начальный набор данных оценки;
+- локальная конфигурация Docker;
+- публичная документация и CI.
 
-## Excluded
+## Что исключено
 
-- private Git commits, branches, tags, and remotes;
-- agent memory, prompts, handoffs, and local operating instructions;
-- deployment scripts and server topology;
-- environment files, credentials, API tokens, and account identifiers;
-- customer names, requests, contact details, and commercial documents;
-- distributor responses, stock snapshots, prices, and product exports;
-- production model configuration, run identifiers, outputs, and metrics;
-- accepted golden cases and human annotations.
+- закрытые коммиты, ветки, теги и удалённые репозитории Git;
+- память, промпты, передачи контекста и локальные инструкции агентов;
+- скрипты развёртывания и топология серверов;
+- файлы окружения, учётные данные, токены API и идентификаторы аккаунтов;
+- названия клиентов, их запросы, контакты и коммерческие документы;
+- ответы дистрибьюторов, снимки остатков, цены и выгрузки товаров;
+- рабочая конфигурация модели, идентификаторы запусков, результаты и показатели;
+- принятые эталонные случаи и разметка людей.
 
-## Provenance
+## Происхождение
 
-The source snapshot was authored under Pavel Logachev's private project history. No third-party source files or previous license notices were present in the exported application allowlist. Runtime dependencies retain their own licenses and are not vendored into this repository.
+Снимок исходного кода создан в закрытой истории проекта Павла Логачёва. В списке экспортированных файлов приложения не было сторонних исходных файлов и прежних лицензионных уведомлений. Зависимости времени выполнения сохраняют собственные лицензии и не включены в репозиторий.
 
-The public repository starts with a new history so that deleted or unrelated private material cannot be recovered from earlier commits.
+Публичный репозиторий начинается с новой истории, чтобы удалённые или посторонние закрытые материалы нельзя было восстановить из прежних коммитов.
 
-## Claims this repository does not make
+## Чего этот репозиторий не утверждает
 
-- It is not a hosted SaaS service or public demo.
-- It does not include access to distributor systems.
-- It does not certify hardware compatibility.
-- It does not prove production quality for any model or prompt.
-- It does not replace engineering or commercial review.
+- Это не облачный сервис и не публичная демонстрация.
+- В нём нет доступа к системам дистрибьюторов.
+- Он не подтверждает совместимость оборудования.
+- Он не доказывает рабочее качество какой-либо модели или промпта.
+- Он не заменяет проверку инженером и коммерческую проверку.
 
-## Reproducing the public checks
+## Как воспроизвести публичные проверки
 
 ```bash
 python -m pip install -e ".[dev]"
@@ -46,4 +46,4 @@ ruff check .
 pytest -q
 ```
 
-Secret scanning and dependency review also run before and after publication. Real-data acceptance remains a private operational process because the required evidence cannot be published safely.
+Сканирование секретов и проверка зависимостей также выполняются до и после публикации. Приёмка на реальных данных остаётся закрытым эксплуатационным процессом, потому что нужные для неё доказательства нельзя безопасно опубликовать.
