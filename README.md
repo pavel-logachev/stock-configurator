@@ -1,119 +1,119 @@
 # Stock Configurator
 
-**A working infrastructure-presales MVP that turns a manager's free-form request and distributor stock into a reviewable draft specification with explicit assumptions.**
+**Рабочий MVP для пресейла инфраструктуры: из свободного запроса менеджера и остатков дистрибьютора собирает черновик спецификации для проверки, с явными допущениями.**
 
-[Product case](https://logachev.net/portfolio/stock-configurator/) · [CI](https://github.com/pavel-logachev/stock-configurator/actions/workflows/ci.yml) · [Architecture](docs/ARCHITECTURE.md) · [Run locally](docs/LOCAL_DEVELOPMENT.md) · [AGPL-3.0](LICENSE)
+[Кейс на сайте](https://logachev.net/portfolio/stock-configurator/) · [CI](https://github.com/pavel-logachev/stock-configurator/actions/workflows/ci.yml) · [Архитектура](docs/ARCHITECTURE.md) · [Запуск локально](docs/LOCAL_DEVELOPMENT.md) · [AGPL-3.0](LICENSE)
 
-![Stock Configurator product flow](docs/assets/social-preview.png)
+![Схема работы Stock Configurator](docs/assets/social-preview.png)
 
-> Product-flow diagram based on synthetic data. It is not a UI screenshot or a customer artifact.
+> Схема работы на синтетических данных. Это не скриншот интерфейса и не материал клиента.
 
-## At a glance
+## Коротко
 
-| Aspect | Detail |
+| Параметр | Описание |
 | --- | --- |
-| **For** | Infrastructure sales and presales teams, with final review by an engineer |
-| **Input** | A free-form server, storage, or networking request plus authorized distributor inventory |
-| **Output** | A draft BOM, concise summary, and Excel report with assumptions and open questions |
-| **Interfaces** | Telegram, FastAPI, and downloadable Markdown or Excel reports |
-| **Decision boundary** | Code validates identifiers, quantities, prices, evidence, and result state; an engineer confirms compatibility and commercial readiness |
-| **Status** | Working private MVP; this repository is the sanitized clean-room public edition |
+| **Для кого** | Отделы продаж и пресейла инфраструктуры; итоговую проверку делает инженер |
+| **Вход** | Свободный запрос на сервер, систему хранения или сетевое оборудование и доступные остатки дистрибьютора |
+| **Результат** | Черновик BOM, краткая сводка и отчёт Excel с допущениями и открытыми вопросами |
+| **Интерфейсы** | Telegram, FastAPI и отчёты Markdown или Excel для скачивания |
+| **Граница решения** | Код проверяет идентификаторы, количества, цены, доказательства и состояние результата; совместимость и коммерческую готовность подтверждает инженер |
+| **Статус** | Рабочий закрытый MVP; этот репозиторий — очищенная публичная версия «с чистого листа» |
 
-## Why this exists
+## Зачем это нужно
 
-Infrastructure requests rarely arrive as clean bills of materials. They arrive as messages such as:
+Запросы на инфраструктуру редко приходят в виде чистой спецификации. Они приходят сообщениями вроде:
 
 > Нужны два сервера 2U, два процессора, 512 ГБ RAM, SSD, два блока питания, склад Москва.
 
-Turning that sentence into a commercial draft requires several different kinds of work:
+Чтобы превратить такую фразу в коммерческий черновик, нужно несколько разных видов работы:
 
-- extracting a structured requirement without silently inventing details;
-- mapping it to current distributor inventory;
-- reasoning about compatibility and enablement parts;
-- preserving prices and product identifiers exactly;
-- explaining gaps instead of forcing a recommendation;
-- producing an artifact an engineer can review and hand off.
+- извлечь структурированное требование, не додумывая детали молча;
+- сопоставить его с актуальными остатками дистрибьютора;
+- рассудить о совместимости и сопутствующих компонентах;
+- сохранить цены и идентификаторы товаров в точности;
+- объяснить пробелы, а не навязывать рекомендацию;
+- выдать результат, который инженер может проверить и передать дальше.
 
-Stock Configurator separates those responsibilities. Language models handle semantic extraction and composition. Deterministic code owns integrations, persistence, validation, evidence, report generation, and release gates.
+Stock Configurator разделяет эти обязанности. Языковые модели отвечают за смысловое извлечение и составление. Детерминированный код отвечает за интеграции, хранение, проверки, доказательства, формирование отчётов и условия выпуска.
 
-## Pavel Logachev's role
+## Роль Павла Логачёва
 
-I designed and built Stock Configurator as an independent product around a workflow I know from B2B IT and systems integration. My work covers the product logic, Telegram operator flow, FastAPI service, distributor-data boundary, evidence and reconciliation layer, Excel output, evaluation contracts, and public-release engineering.
+Я придумал и сделал Stock Configurator как самостоятельный продукт вокруг рабочего процесса, который знаю по B2B IT и системной интеграции. В моей работе: продуктовая логика, сценарий оператора в Telegram, сервис на FastAPI, граница работы с данными дистрибьюторов, слой доказательств и сверки, вывод в Excel, контракты оценки и подготовка публичного релиза.
 
-The [portfolio case](https://logachev.net/portfolio/stock-configurator/) explains the user workflow and result. This repository provides the inspectable implementation, tests, architecture, and explicit publication boundary.
+[Кейс на сайте](https://logachev.net/portfolio/stock-configurator/) объясняет рабочий процесс пользователя и результат. Этот репозиторий даёт реализацию, которую можно изучить, тесты, архитектуру и явную границу публикации.
 
-## Public edition status
+## Статус публичной версии
 
-This repository is an **AGPL-3.0 clean-room public edition** derived from a working private project.
+Репозиторий — **публичная версия «с чистого листа» под AGPL-3.0**, выделенная из рабочего закрытого проекта.
 
-Included:
+Включено:
 
-- FastAPI service and PostgreSQL persistence;
-- OCS and Treolan connector implementations;
-- Telegram bot integration;
-- request extraction, matching, composition, reconciliation, and reports;
-- Markdown and Excel outputs;
-- offline evaluation contracts and synthetic fixtures;
-- migrations and automated tests.
+- сервис FastAPI и хранение в PostgreSQL;
+- реализации коннекторов OCS и Treolan;
+- интеграция с ботом Telegram;
+- извлечение запроса, сопоставление, составление, сверка и отчёты;
+- выходные форматы Markdown и Excel;
+- офлайн-контракты оценки и синтетические данные;
+- миграции и автоматические тесты.
 
-Intentionally excluded:
+Намеренно исключено:
 
-- private Git history and agent state;
-- credentials and deployment configuration;
-- customer requests and distributor payloads;
-- live prices, stock snapshots, model outputs, and accepted golden cases;
-- production run identifiers and operational metrics.
+- закрытая история Git и состояние агентов;
+- учётные данные и конфигурация развёртывания;
+- запросы клиентов и ответы дистрибьюторов;
+- актуальные цены, снимки остатков, ответы моделей и принятые эталонные случаи;
+- идентификаторы рабочих запусков и эксплуатационные показатели.
 
-The public synthetic baseline proves the mechanics of the pipeline and its test gates. It is not evidence that a particular model or distributor account will produce a commercially acceptable configuration. See [Public release boundary](docs/PUBLIC_RELEASE_BOUNDARY.md).
+Публичный синтетический базовый набор доказывает механику конвейера и его проверок, но не то, что конкретная модель или учётная запись дистрибьютора даст коммерчески приемлемую конфигурацию. См. [Граница публичного релиза](docs/PUBLIC_RELEASE_BOUNDARY.md).
 
-## Safety boundary
+## Граница безопасности
 
-The system produces a **draft**, never an approved configuration.
+Система выдаёт **черновик**, а не утверждённую конфигурацию.
 
-A result can be:
+Результат может быть таким:
 
-- `quote_draft_review_required` - enough grounded evidence exists to prepare a draft, but engineering review is mandatory;
-- `no_recommendation` - the evidence is incomplete or a safe configuration cannot be established;
-- blocked or failed - input, evidence, or evaluation requirements were not met.
+- `quote_draft_review_required` — есть достаточно подтверждённых доказательств для черновика, но проверка инженером обязательна;
+- `no_recommendation` — доказательств не хватает или безопасную конфигурацию собрать нельзя;
+- заблокирован или завершился ошибкой — не выполнены требования ко входным данным, доказательствам или оценке.
 
-A model cannot approve compatibility, invent a SKU, override stock evidence, or promote a draft to a final commercial offer. Those transitions remain deterministic or human-controlled.
+Модель не может подтвердить совместимость, придумать артикул, переопределить данные об остатках или превратить черновик в итоговое коммерческое предложение. Эти переходы остаются за детерминированным кодом или человеком.
 
-## Pipeline
+## Конвейер
 
 ```mermaid
 flowchart LR
-    A[Free-form request] --> B[Structured requirement]
-    C[Distributor inventory] --> D[Normalized stock matrix]
-    B --> E[Candidate planning]
+    A[Свободный запрос] --> B[Структурированное требование]
+    C[Остатки дистрибьютора] --> D[Нормализованная матрица остатков]
+    B --> E[Планирование кандидатов]
     D --> E
-    E --> F[LLM configuration draft]
-    F --> G[Deterministic reconciliation]
-    G --> H{Evidence complete?}
-    H -->|No| I[No recommendation]
-    H -->|Yes| J[Draft BOM + reports]
-    J --> K[Engineer review]
+    E --> F[Черновик конфигурации от модели]
+    F --> G[Детерминированная сверка]
+    G --> H{Доказательства полны?}
+    H -->|Нет| I[Нет рекомендации]
+    H -->|Да| J[Черновик BOM и отчёты]
+    J --> K[Проверка инженером]
 ```
 
-The model receives a bounded evidence package. The reconciler then checks identifiers, quantities, prices, required roles, provenance, and unsupported claims before any draft is returned.
+Модель получает ограниченный пакет доказательств. Затем сверка проверяет идентификаторы, количества, цены, обязательные роли, происхождение данных и неподтверждённые утверждения, и только после этого черновик возвращается.
 
-More detail: [Architecture](docs/ARCHITECTURE.md).
+Подробнее: [Архитектура](docs/ARCHITECTURE.md).
 
-## Components
+## Компоненты
 
-| Area | Responsibility |
+| Область | Ответственность |
 | --- | --- |
-| `app/distributors` | Authenticated catalog and stock ingestion for distributor APIs |
-| `app/matching` | Requirement normalization, candidate planning, matrix construction, and orchestration |
-| `app/llm` | OpenAI-compatible extraction and configuration composition |
-| `app/evidence` | Optional web evidence with explicit provider and domain controls |
-| `app/reports` | Markdown and Excel report generation |
-| `app/evaluation` | Hash-bound offline comparison, blind review, and release gates |
-| `app/telegram_bot` | Operator-facing Telegram workflow |
-| `app/api` | FastAPI endpoints for runs, drafts, and report retrieval |
+| `app/distributors` | Загрузка каталога и остатков через API дистрибьюторов с аутентификацией |
+| `app/matching` | Нормализация требований, планирование кандидатов, построение матрицы и оркестрация |
+| `app/llm` | Извлечение и составление конфигурации через OpenAI-совместимый API |
+| `app/evidence` | Необязательные веб-доказательства с явным контролем провайдера и доменов |
+| `app/reports` | Формирование отчётов Markdown и Excel |
+| `app/evaluation` | Офлайн-сравнение с привязкой по хешам, слепая проверка и условия выпуска |
+| `app/telegram_bot` | Сценарий оператора в Telegram |
+| `app/api` | Конечные точки FastAPI для запусков, черновиков и получения отчётов |
 
-## Quick start with Docker
+## Быстрый старт в Docker
 
-Requirements: Docker Engine with Compose v2.
+Требования: Docker Engine с Compose v2.
 
 ```bash
 cp .env.example .env
@@ -122,7 +122,7 @@ docker compose exec stock-api alembic upgrade head
 curl http://127.0.0.1:8010/health
 ```
 
-Expected health response:
+Ожидаемый ответ проверки состояния:
 
 ```json
 {
@@ -132,82 +132,82 @@ Expected health response:
 }
 ```
 
-Interactive API documentation is available at <http://127.0.0.1:8010/docs>.
+Интерактивная документация API доступна по адресу <http://127.0.0.1:8010/docs>.
 
-The default configuration keeps LLM execution and web evidence disabled. Distributor connectors have no credentials. The Telegram service is opt-in:
+В конфигурации по умолчанию запуск языковой модели и веб-доказательства отключены. У коннекторов дистрибьюторов нет учётных данных. Сервис Telegram включается отдельно:
 
 ```bash
 docker compose --profile telegram up --build -d
 ```
 
-Configure real integrations only in `.env`, which is ignored by Git. Never commit credentials or business data.
+Настраивайте реальные интеграции только в `.env`, который не попадает в Git. Никогда не коммитьте учётные данные и бизнес-данные.
 
-## Local development
+## Локальная разработка
 
 ```bash
 python -m venv .venv
-source .venv/Scripts/activate  # Git Bash on Windows
+source .venv/Scripts/activate  # Git Bash в Windows
 python -m pip install --upgrade pip
 python -m pip install -e ".[dev]"
 ruff check .
 pytest -q
 ```
 
-The automated test suite uses fakes and synthetic fixtures; it does not require distributor, Telegram, or LLM credentials.
+Автоматические тесты используют заглушки и синтетические данные; им не нужны учётные данные дистрибьюторов, Telegram и языковой модели.
 
-Detailed setup: [Local development](docs/LOCAL_DEVELOPMENT.md).
+Подробная настройка: [Локальная разработка](docs/LOCAL_DEVELOPMENT.md).
 
-## API surface
+## API
 
-The service exposes:
+Сервис предоставляет:
 
 - `GET /health`;
 - `POST /api/v1/match`;
 - `POST /api/v1/match/v3/full-category`;
 - `POST /api/v1/match/v3/simple-stock-quote`;
-- `GET /api/v1/match` and `GET /api/v1/match/{id}`;
-- Markdown and Excel report endpoints for persisted runs.
+- `GET /api/v1/match` и `GET /api/v1/match/{id}`;
+- конечные точки отчётов Markdown и Excel для сохранённых запусков.
 
-The quote endpoints require a populated inventory database. Optional AI execution additionally requires an explicitly configured OpenAI-compatible endpoint.
+Конечным точкам предложений нужна заполненная база остатков. Для необязательного запуска ИИ дополнительно нужен явно настроенный OpenAI-совместимый адрес.
 
-## Evaluation
+## Оценка
 
-The release gate compares hash-bound baseline and candidate bundles. It checks:
+Условие выпуска сравнивает наборы базового и проверяемого запусков, привязанные по хешам. Проверяются:
 
-- structured validity;
-- grounded product identifiers;
-- unsupported material claims;
-- business-weighted loss;
-- critical errors;
-- latency and cost regressions;
-- blind-review evidence.
+- структурная корректность;
+- подтверждённые идентификаторы товаров;
+- неподтверждённые существенные утверждения;
+- потери, взвешенные по бизнесу;
+- критические ошибки;
+- ухудшение задержки и стоимости;
+- данные слепой проверки.
 
-The committed dataset is deliberately a one-case synthetic bootstrap and remains below the acceptance threshold. Real evaluation data stays local and ignored. See [evaluation/simple_stock/v1/README.md](evaluation/simple_stock/v1/README.md).
+Набор данных в репозитории намеренно состоит из одного синтетического начального случая и остаётся ниже порога приёмки. Реальные данные оценки хранятся локально и не попадают в Git. См. [evaluation/simple_stock/v1/README.md](evaluation/simple_stock/v1/README.md).
 
-## Security and data handling
+## Безопасность и работа с данными
 
-- Secrets are loaded from environment variables and excluded by `.gitignore` and `.dockerignore`.
-- Public fixtures are synthetic.
-- Real evaluation bundles are restricted to ignored local paths.
-- Export tooling uses bounded, read-only database transactions.
-- Generated drafts retain an explicit engineering-review state.
+- Секреты читаются из переменных окружения и исключены через `.gitignore` и `.dockerignore`.
+- Публичные тестовые данные синтетические.
+- Реальные наборы оценки допускаются только в игнорируемых локальных каталогах.
+- Инструменты выгрузки используют ограниченные транзакции базы данных только для чтения.
+- Сформированные черновики всегда сохраняют явное состояние «требуется проверка инженером».
 
-Please report vulnerabilities through GitHub private vulnerability reporting. See [SECURITY.md](SECURITY.md).
+О найденных уязвимостях сообщайте через приватное сообщение об уязвимостях GitHub. См. [SECURITY.md](SECURITY.md).
 
-## Similar work
+## Похожие работы
 
-I build practical internal tools that connect business workflows, operational data, AI-assisted semantic work, deterministic validation, and human decisions. [Read the Stock Configurator case](https://logachev.net/portfolio/stock-configurator/) or [describe a similar task](mailto:ai@logachev.net?subject=Infrastructure%20workflow).
+Я делаю практичные внутренние инструменты, которые связывают рабочие процессы бизнеса, операционные данные, смысловую работу с помощью ИИ, детерминированные проверки и решения людей. [Прочитать кейс Stock Configurator](https://logachev.net/portfolio/stock-configurator/) или [описать похожую задачу](mailto:ai@logachev.net?subject=Infrastructure%20workflow).
 
-## Trade names
+## Товарные знаки
 
-OCS, Treolan, Telegram, and product or vendor names belong to their respective owners. This project is independent and is not endorsed by those companies. Connector use requires your own authorized account and compliance with the relevant terms.
+OCS, Treolan, Telegram и названия продуктов или производителей принадлежат их владельцам. Проект независим и не одобрен этими компаниями. Для использования коннекторов нужна ваша собственная учётная запись и соблюдение соответствующих условий.
 
-## Contributing
+## Участие
 
-Small, evidence-backed changes are welcome. Keep semantic behavior changes isolated, add tests, and preserve the review boundary. See [CONTRIBUTING.md](CONTRIBUTING.md).
+Приветствуются небольшие изменения, подкреплённые доказательствами. Меняйте смысловое поведение отдельно, добавляйте тесты и сохраняйте границу проверки. См. [CONTRIBUTING.md](CONTRIBUTING.md).
 
-## License
+## Лицензия
 
-Copyright 2026 Pavel Logachev.
+© 2026 Павел Логачёв.
 
-Licensed under the [GNU Affero General Public License v3.0](LICENSE). If you modify the software and make it available over a network, the AGPL requires you to offer the corresponding source code to users of that service.
+Распространяется по [GNU Affero General Public License v3.0](LICENSE). Если вы изменяете программу и открываете доступ к ней по сети, AGPL требует предложить пользователям этого сервиса соответствующий исходный код.

@@ -1,29 +1,29 @@
-# Offline evaluation
+# Офлайн-оценка
 
-The public repository contains the evaluator, its contracts, synthetic tests, and a single bootstrap case. It does **not** contain distributor payloads, customer requests, production model outputs, prices, or accepted golden cases.
+Публичный репозиторий содержит оценщик, его контракты, синтетические тесты и один начальный случай. В нём **нет** ответов дистрибьюторов, запросов клиентов, результатов рабочих моделей, цен и принятых эталонных случаев.
 
-`dataset.json` is intentionally marked `bootstrap`. The evaluator must remain blocked until enough independently reviewed cases are added and all hash-bound evidence is available. A passing synthetic test proves the mechanics of the gate, not the commercial quality of a model-generated configuration.
+`dataset.json` намеренно помечен как `bootstrap`. Оценщик должен оставаться заблокированным, пока не добавлено достаточно независимо проверенных случаев и не доступны все доказательства, привязанные по хешам. Прохождение синтетического теста доказывает механику условия выпуска, а не коммерческое качество конфигурации, составленной моделью.
 
-## What is versioned
+## Что хранится в репозитории
 
-- evaluation schema and thresholds;
-- synthetic request and matrix references;
-- expected result states and atomic criteria;
-- code that compares a baseline and a candidate run;
-- tests for hashes, path confinement, blind review, regressions, and privacy.
+- схема оценки и пороги;
+- ссылки на синтетические запросы и матрицы;
+- ожидаемые состояния результата и атомарные критерии;
+- код, сравнивающий базовый и новый запуски;
+- тесты хешей, ограничения путей, слепой проверки, регрессий и приватности.
 
-## What stays local
+## Что остаётся локально
 
-Real requests, inventory matrices, model outputs, annotations, and reports belong under ignored paths:
+Реальные запросы, матрицы остатков, результаты моделей, разметка и отчёты хранятся в игнорируемых путях:
 
 ```text
 evaluation/simple_stock/local/
 evaluation/simple_stock/reports/
 ```
 
-Never commit exported business data, credentials, distributor responses, or customer requirements.
+Никогда не коммитьте выгруженные бизнес-данные, учётные данные, ответы дистрибьюторов и требования клиентов.
 
-## Evaluation command
+## Команда оценки
 
 ```bash
 python -m app.cli.evaluate_simple_stock_pipeline \
@@ -34,10 +34,10 @@ python -m app.cli.evaluate_simple_stock_pipeline \
   --output evaluation/simple_stock/reports/latest.json
 ```
 
-Exit codes:
+Коды завершения:
 
-- `0` — release gates passed;
-- `1` — regression or critical error found;
-- `2` — blocked because evidence is incomplete or invalid.
+- `0` — условия выпуска выполнены;
+- `1` — найдена регрессия или критическая ошибка;
+- `2` — заблокировано: доказательства неполны или недействительны.
 
-The public synthetic dataset should normally produce `2` until a maintainer deliberately builds a valid local evaluation corpus.
+Публичный синтетический набор данных обычно должен давать `2`, пока сопровождающий намеренно не соберёт корректный локальный корпус оценки.

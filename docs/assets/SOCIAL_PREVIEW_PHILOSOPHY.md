@@ -1,11 +1,13 @@
-# Evidence Grid
+# Сетка доказательств
 
-Evidence Grid treats technical work as a sequence that can be inspected rather than a promise that must be believed. A quiet dark field creates distance; a measured grid turns that field into a working surface. The composition should feel built, checked, and refined, with every edge aligned through painstaking attention.
+«Сетка доказательств» рассматривает техническую работу как последовательность, которую можно проверить, а не как обещание, которому нужно верить. Тихое тёмное поле создаёт дистанцию; выверенная сетка превращает это поле в рабочую поверхность. Композиция должна выглядеть построенной, проверенной и доведённой, с точным выравниванием каждого края.
 
-Information lives in spatial relationships. A small number of large modules carries the sequence, and generous negative space lets the eye understand each transition before reading a label. Scale is disciplined rather than dramatic: one editorial title establishes identity, while the system itself remains the primary visual subject.
+Информация живёт в пространственных отношениях. Последовательность несут несколько крупных модулей, а свободное место позволяет глазу понять каждый переход раньше, чем прочитана подпись. Масштаб дисциплинирован, а не драматичен: один редакторский заголовок задаёт характер, а главным визуальным предметом остаётся сама система.
 
-Color acts as an operational language. Deep navy holds the evidence field, a single saturated blue marks the usable draft, and a restrained coral boundary identifies accountable human judgment. These states must remain distinct at thumbnail size, calibrated with the care of a master information designer.
+Цвет работает как рабочий язык. Глубокий синий держит поле доказательств, один насыщенный синий отмечает пригодный черновик, а сдержанная коралловая граница обозначает ответственное решение человека. Эти состояния должны оставаться различимыми в размере миниатюры.
 
-Typography is sparse and integrated into the architecture. A serif title brings an authored, editorial character; compact sans-serif labels provide technical precision. Words anchor what form and color already communicate. Nothing imitates an application interface, and no decorative element is allowed to compete with the workflow.
+Типографика скупая и встроена в архитектуру. Заголовок с засечками придаёт авторский, редакторский характер; компактные рубленые подписи дают техническую точность. Слова закрепляют то, что уже сообщают форма и цвет. Ничто не изображает интерфейс приложения, и ни один декоративный элемент не конкурирует с рабочим процессом.
 
-The finished artifact should look meticulously crafted over countless refinements: exact spacing, crisp geometry, controlled contrast, and deliberate attribution. It must work both as a full-width repository hero and as a small social card while remaining honest about its nature as a conceptual product-flow diagram, not a screenshot or customer artifact.
+Готовая картинка должна выглядеть тщательно выверенной: точные отступы, чёткая геометрия, контролируемый контраст, ясная подпись автора. Она должна работать и как широкая обложка репозитория, и как маленькая социальная карточка, оставаясь честной в том, что это концептуальная схема работы продукта, а не скриншот и не материал клиента.
+
+Картинки рисует `tools/render_social_preview.py`.

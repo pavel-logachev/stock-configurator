@@ -1,32 +1,32 @@
-# Security policy
+# Политика безопасности
 
-## Supported version
+## Поддерживаемая версия
 
-Security fixes are applied to the latest commit on `main`. The project has not declared a stable production release line.
+Исправления безопасности вносятся в последний коммит ветки `main`. Для проекта не объявлена стабильная линия рабочих релизов.
 
-## Reporting a vulnerability
+## Как сообщить об уязвимости
 
-Use GitHub private vulnerability reporting for this repository. Do not open a public issue for a suspected secret exposure, authentication bypass, remote-code execution path, or leak of business data.
+Используйте приватное сообщение об уязвимостях GitHub для этого репозитория. Не создавайте публичный issue, если подозреваете утечку секрета, обход аутентификации, путь удалённого выполнения кода или утечку бизнес-данных.
 
-Include:
+Укажите:
 
-- affected commit;
-- reproduction steps using synthetic data;
-- impact and preconditions;
-- suggested mitigation, if known.
+- затронутый коммит;
+- шаги воспроизведения на синтетических данных;
+- влияние и предпосылки;
+- возможные меры защиты, если они вам известны.
 
-Do not include real credentials, customer data, distributor payloads, or private endpoints in the report.
+Не прикладывайте к сообщению реальные учётные данные, данные клиентов, ответы дистрибьюторов и закрытые адреса.
 
-## Secrets
+## Секреты
 
-The repository must not contain usable API tokens, passwords, private keys, connection strings, Telegram bot tokens, or distributor credentials. Local configuration belongs in `.env`, which is ignored.
+В репозитории не должно быть рабочих токенов API, паролей, закрытых ключей, строк подключения, токенов ботов Telegram и учётных данных дистрибьюторов. Локальная конфигурация хранится в `.env`, который не попадает в Git.
 
-If a secret reaches Git history, deleting the current file is not sufficient. Rotate the credential first, then remove it from history and verify the rewritten repository with a secret scanner.
+Если секрет попал в историю Git, удалить текущий файл недостаточно. Сначала замените учётные данные, затем удалите их из истории и проверьте переписанный репозиторий сканером секретов.
 
-## Deployment responsibility
+## Ответственность за развёртывание
 
-The supplied Compose file is for localhost development. Public deployment requires an independent review of authentication, TLS, network exposure, backups, observability, rate limiting, data retention, and incident recovery.
+Входящий в репозиторий файл Compose предназначен для разработки на localhost. Для публичного развёртывания нужна независимая проверка аутентификации, TLS, сетевого доступа, резервного копирования, наблюдаемости, ограничения частоты запросов, сроков хранения данных и восстановления после инцидентов.
 
-## AI-specific boundary
+## Граница, связанная с ИИ
 
-Treat model output as untrusted input. Security reports are welcome for paths that let a model output bypass identifier grounding, evidence checks, deterministic validation, or the mandatory engineering-review state.
+Считайте вывод модели недоверенными входными данными. Сообщения приветствуются о путях, по которым вывод модели обходит привязку идентификаторов, проверки доказательств, детерминированную валидацию или обязательное состояние проверки инженером.

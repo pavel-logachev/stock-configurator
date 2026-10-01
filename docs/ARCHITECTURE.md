@@ -1,54 +1,54 @@
-# Architecture
+# Архитектура
 
-## Design rule
+## Правило проектирования
 
-The language model may perform semantic work. It does not own system facts.
+Языковая модель может выполнять смысловую работу, но не владеет фактами системы.
 
-Code remains responsible for authentication, network limits, data normalization, storage, evidence binding, validation, report rendering, privacy controls, and reproducibility. A model output is an input to the reconciler, not a final commercial decision.
+За аутентификацию, сетевые ограничения, нормализацию данных, хранение, привязку доказательств, проверки, формирование отчётов, защиту приватности и воспроизводимость отвечает код. Вывод модели — входные данные для сверки, а не итоговое коммерческое решение.
 
-## Runtime path
+## Путь выполнения
 
-1. **Ingestion** - an authorized distributor connector retrieves categories, products, prices, and stock.
-2. **Normalization** - source-specific payloads become a common catalog model with provenance.
-3. **Request extraction** - free-form text becomes a structured `StockSpec`.
-4. **Candidate planning** - code identifies relevant categories and bounds the evidence package.
-5. **Matrix construction** - candidates are grouped by requested role with stable identifiers and source facts.
-6. **Composition** - an OpenAI-compatible model proposes a draft configuration using only the supplied matrix.
-7. **Reconciliation** - deterministic checks validate IDs, quantities, prices, role coverage, material claims, and result state.
-8. **Persistence and reports** - the service stores the run and renders Markdown or Excel artifacts.
-9. **Engineering review** - a person confirms compatibility, scope, and final commercial content.
+1. **Загрузка** — авторизованный коннектор дистрибьютора получает категории, товары, цены и остатки.
+2. **Нормализация** — данные разных источников превращаются в общую модель каталога с указанием происхождения.
+3. **Извлечение запроса** — свободный текст превращается в структурированный `StockSpec`.
+4. **Планирование кандидатов** — код определяет подходящие категории и ограничивает пакет доказательств.
+5. **Построение матрицы** — кандидаты группируются по запрошенным ролям со стабильными идентификаторами и фактами из источника.
+6. **Составление** — OpenAI-совместимая модель предлагает черновик конфигурации, используя только переданную матрицу.
+7. **Сверка** — детерминированные проверки подтверждают идентификаторы, количества, цены, покрытие ролей, существенные утверждения и состояние результата.
+8. **Хранение и отчёты** — сервис сохраняет запуск и формирует артефакты Markdown или Excel.
+9. **Проверка инженером** — человек подтверждает совместимость, объём и итоговое коммерческое содержание.
 
-## Trust boundaries
+## Границы доверия
 
-### External systems
+### Внешние системы
 
-Distributor, LLM, web-evidence, and Telegram endpoints are untrusted network dependencies. Each connector has explicit timeouts and typed error handling. Credentials enter through environment variables only.
+Адреса дистрибьюторов, языковой модели, веб-доказательств и Telegram — недоверенные сетевые зависимости. У каждого коннектора есть явные тайм-ауты и типизированная обработка ошибок. Учётные данные поступают только через переменные окружения.
 
-### Model output
+### Вывод модели
 
-Model output is untrusted structured data. Pydantic models parse the result; the reconciler rejects unknown products, unsupported prices, missing roles, and material claims that are not grounded in the evidence package.
+Вывод модели — недоверенные структурированные данные. Результат разбирают модели Pydantic; сверка отклоняет неизвестные товары, неподтверждённые цены, пропущенные роли и существенные утверждения, не подтверждённые пакетом доказательств.
 
-### Business data
+### Бизнес-данные
 
-Catalog snapshots, customer requests, generated outputs, and evaluation annotations are business data. The public repository contains synthetic examples only. Local evaluation directories are ignored.
+Снимки каталога, запросы клиентов, сформированные результаты и разметка оценки — бизнес-данные. В публичном репозитории только синтетические примеры. Локальные каталоги оценки не попадают в Git.
 
-## Failure policy
+## Политика при сбоях
 
-The system prefers an explicit `no_recommendation` or blocked result over a plausible-looking unsupported configuration. Missing evidence must remain visible in validation errors, warnings, and review notes.
+Система предпочитает явный `no_recommendation` или заблокированный результат правдоподобной, но неподтверждённой конфигурации. Недостающие доказательства должны оставаться видимыми в ошибках проверки, предупреждениях и заметках для проверяющего.
 
-## Evaluation boundary
+## Граница оценки
 
-A release candidate is compared with a baseline through hash-bound bundles. Inputs, prompts, model settings, outputs, matrices, and annotations are referenced by SHA-256. Blind-review receipts bind decisions to specific baseline and candidate artifacts.
+Релизный кандидат сравнивается с базовой версией через наборы, привязанные по хешам. Входные данные, промпты, настройки модели, результаты, матрицы и разметка указываются по SHA-256. Квитанции слепой проверки привязывают решения к конкретным артефактам базовой и новой версий.
 
-The public dataset is intentionally insufficient for production acceptance. Maintainers must build their own authorized local corpus before treating evaluator output as a release decision.
+Публичный набор данных намеренно недостаточен для рабочей приёмки. Прежде чем считать вывод оценщика решением о релизе, сопровождающие должны собрать собственный авторизованный локальный корпус.
 
-## Deployment shape
+## Состав развёртывания
 
-The provided Compose stack contains:
+Входящий в репозиторий набор Compose содержит:
 
-- a FastAPI container;
-- PostgreSQL on a private Docker network;
-- an optional Telegram profile;
-- a named database volume.
+- контейнер FastAPI;
+- PostgreSQL в закрытой сети Docker;
+- необязательный профиль Telegram;
+- именованный том базы данных.
 
-Only the API is bound to the host, and it is restricted to `127.0.0.1` by default. Production authentication, TLS termination, backups, observability, and network policy are deployment responsibilities and are intentionally outside this source release.
+К хосту привязан только API, и по умолчанию он ограничен адресом `127.0.0.1`. Аутентификация, TLS, резервное копирование, наблюдаемость и сетевые политики для рабочей среды — ответственность развёртывающей стороны и намеренно вне этого релиза исходного кода.
