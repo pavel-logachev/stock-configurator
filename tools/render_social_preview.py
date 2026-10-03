@@ -78,7 +78,7 @@ def render_social() -> None:
     draw = ImageDraw.Draw(image)
     grid(draw, size, 64)
     draw.text(
-        (52, 30), "ПАВЕЛ ЛОГАЧЁВ / B2B-ПРОДУКТ НА ИИ", font=font(SANS_SEMI, 18), fill=BLUE_TEXT
+        (52, 30), "ПАВЕЛ ЛОГАЧЕВ / B2B-ПРОДУКТ НА ИИ", font=font(SANS_SEMI, 18), fill=BLUE_TEXT
     )
     right = font(SANS_SEMI, 18)
     text = "LOGACHEV.NET"
@@ -146,7 +146,7 @@ def render_flow() -> None:
         font=font(SANS, 26),
         fill=MUTED,
     )
-    draw.text((64, 1156), "ПАВЕЛ ЛОГАЧЁВ  ·  LOGACHEV.NET", font=font(SANS_BOLD, 17), fill=MUTED)
+    draw.text((64, 1156), "ПАВЕЛ ЛОГАЧЕВ  ·  LOGACHEV.NET", font=font(SANS_BOLD, 17), fill=MUTED)
     draw.ellipse((1511, 1141, 1535, 1165), fill=CORAL)
     image.save(OUT / "stock-configurator-flow.png", optimize=True)
 
