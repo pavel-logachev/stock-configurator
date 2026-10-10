@@ -1,6 +1,6 @@
 """Рисует схему работы Stock Configurator.
 
-Результат: docs/assets/social-preview.png и docs/assets/stock-configurator-flow.png.
+Результат: docs/assets/stock-configurator-flow.png.
 Схема концептуальная (не скриншот и не материал клиента).
 Запуск: python tools/render_social_preview.py
 Нужны Pillow и шрифты Georgia и Segoe UI (в Windows они есть;
@@ -72,46 +72,6 @@ def flow(draw, left, top, box_w, box_h, gap, small, large):
             )
 
 
-def render_social() -> None:
-    size = (1280, 640)
-    image = Image.new("RGB", size, BG)
-    draw = ImageDraw.Draw(image)
-    grid(draw, size, 64)
-    draw.text(
-        (52, 30), "ПАВЕЛ ЛОГАЧЕВ / B2B-ПРОДУКТ НА ИИ", font=font(SANS_SEMI, 18), fill=BLUE_TEXT
-    )
-    right = font(SANS_SEMI, 18)
-    text = "LOGACHEV.NET"
-    draw.text((size[0] - 52 - draw.textlength(text, font=right), 30), text, font=right, fill=MUTED)
-    draw.text((52, 62), "Stock Configurator", font=font(SERIF, 72), fill=WHITE)
-    draw.text(
-        (55, 152),
-        "Свободный запрос на инфраструктуру → черновик спецификации по остаткам",
-        font=font(SANS, 28),
-        fill=WHITE,
-    )
-    flow(draw, 52, 268, 250, 142, 48, font(SANS_SEMI, 16), font(SANS_SEMI, 21))
-    draw.rounded_rectangle((176, 477, 1104, 552), radius=8, fill=CORAL)
-    centered(
-        draw,
-        (176, 477, 1104, 552),
-        "Инженер подтверждает совместимость и итоговую конфигурацию",
-        font(SANS_SEMI, 25),
-        WHITE,
-    )
-    draw.text(
-        (52, 601), "РАБОЧИЙ MVP / TELEGRAM · API · EXCEL", font=font(SANS_SEMI, 16), fill=MUTED
-    )
-    foot = "ПУБЛИЧНАЯ ВЕРСИЯ / СИНТЕТИЧЕСКИЕ ДАННЫЕ"
-    draw.text(
-        (size[0] - 52 - draw.textlength(foot, font=font(SANS_SEMI, 16)), 601),
-        foot,
-        font=font(SANS_SEMI, 16),
-        fill=MUTED,
-    )
-    image.save(OUT / "social-preview.png", optimize=True)
-
-
 def render_flow() -> None:
     size = (1600, 1200)
     image = Image.new("RGB", size, (17, 28, 47))
@@ -152,6 +112,5 @@ def render_flow() -> None:
 
 
 if __name__ == "__main__":
-    render_social()
     render_flow()
     print("Схемы Stock Configurator нарисованы")
