@@ -4,5 +4,5 @@ contact_links:
     url: https://github.com/pavel-logachev/stock-configurator/security/advisories/new
     about: Закрытый канал для проблем безопасности, без публичного issue
   - name: Похожая задача в вашей компании
-    url: https://logachev.net/portfolio/stock-configurator/
+    url: https://logachev.net/#case-stock-configurator
     about: Кейс и контакты автора
