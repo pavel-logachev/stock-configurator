@@ -2,6 +2,8 @@
 
 # Stock Configurator
 
+[![Проверки в CI](https://img.shields.io/github/actions/workflow/status/pavel-logachev/stock-configurator/ci.yml?branch=main&style=flat-square&labelColor=0b0f14&label=CI)](https://github.com/pavel-logachev/stock-configurator/actions/workflows/ci.yml) [![Лицензия](https://img.shields.io/github/license/pavel-logachev/stock-configurator?style=flat-square&labelColor=0b0f14&label=%D0%BB%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F&color=7f99ad)](<LICENSE>)
+
 **Превращает запрос клиента в черновик серверной спецификации по остаткам дистрибьютора — с Excel для проверки инженером.**
 
 [Статья](<https://logachev.net/journal/podbor-oborudovaniya-po-skladu-ii/>) · [Архитектура](<docs/ARCHITECTURE.md>) · [Быстрый старт](<#быстрый-старт-в-docker>) · [API](<#api>)
