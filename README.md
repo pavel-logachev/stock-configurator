@@ -4,7 +4,7 @@
 
 [![Проверки в CI](https://img.shields.io/github/actions/workflow/status/pavel-logachev/stock-configurator/ci.yml?branch=main&style=flat-square&labelColor=0b0f14&label=CI)](https://github.com/pavel-logachev/stock-configurator/actions/workflows/ci.yml) [![Лицензия](https://img.shields.io/github/license/pavel-logachev/stock-configurator?style=flat-square&labelColor=0b0f14&label=%D0%BB%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F&color=7f99ad)](<LICENSE>)
 
-**Превращает запрос клиента в черновик серверной спецификации по остаткам дистрибьютора — с Excel для проверки инженером.**
+**Превращает запрос клиента в черновик серверной спецификации по остаткам дистрибьютора – с Excel для проверки инженером.**
 
 [Статья](<https://logachev.net/journal/podbor-oborudovaniya-po-skladu-ii/>) · [Архитектура](<docs/ARCHITECTURE.md>) · [Быстрый старт](<#быстрый-старт-в-docker>) · [API](<#api>)
 
@@ -127,7 +127,7 @@ pytest -q
 
 ## Нужно похожее решение?
 
-Проект сделал [Павел Логачев](https://github.com/pavel-logachev). Делаю сайты, веб-сервисы, Telegram-ботов, приложения и автоматизацию под задачу: сам разбираю, делаю и запускаю. 20 лет в ИТ: инженер, затем руководитель проектов. Расскажите о задаче [на почту](mailto:pavel@logachev.net) или [в Telegram](https://t.me/pavel_logachev) — разбор на 20–30 минут бесплатный, готовое ТЗ не нужно. Цены и другие проекты — на [logachev.net](https://logachev.net/) и [в профиле](https://github.com/pavel-logachev).
+Проект сделал [Павел Логачев](https://github.com/pavel-logachev). Делаю сайты, веб-сервисы, Telegram-ботов, приложения и автоматизацию под задачу. Код пишут ИИ-агенты под моим руководством, я разбираю задачу, проверяю и запускаю. 20 лет в ИТ: инженер, затем руководитель проектов. Расскажите о задаче [на почту](mailto:pavel@logachev.net) или [в Telegram](https://t.me/pavel_logachev) — разбор на 20–30 минут бесплатный, готовое ТЗ не нужно. Цены и другие проекты — на [logachev.net](https://logachev.net/) и [в профиле](https://github.com/pavel-logachev).
 
 ## Автор, участие и лицензия
 
